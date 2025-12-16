@@ -94,3 +94,173 @@ document.write("</div>");
 
     </body>
 </html>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CGPA Dean's List Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .output-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #7f8c8d; 
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .eligible {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .not-eligible {
+            color: #c0392b;
+            font-weight: bold;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        /* Style adjustments for uniform input width */
+        input[type="text"], 
+        input[type="number"] {
+            width: calc(100% - 120px); 
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding is included in the width */
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Semester Dean's List Eligibility Checker</h1>
+
+    <div class="container">
+        <h2>Check Your Eligibility</h2>
+        
+        <label for="nameInput">Enter Your Name:</label>
+        <input type="text" id="nameInput" placeholder="e.g., Sasuke">
+        
+        <label for="creditHourInput">Enter Semester Credit Hours:</label>
+        <input type="number" id="creditHourInput" min="1" step="1" placeholder="e.g., 15">
+        
+        <label for="gpaInput">Enter Current Semester Pointer (GPA 0.00 to 4.00):</label>
+        <input type="number" id="gpaInput" min="0.00" max="4.00" step="0.01" placeholder="e.g., 3.65">
+        
+        <button onclick="checkEligibility()">Check Status</button>
+        
+        <div id="resultOutput" class="output-box">
+            <p>Enter your details above and click "Check Status" to see if you qualify for the Dean's List (Minimum GPA: 3.50).</p>
+        </div>
+    </div>
+    <script>
+        // Define the minimum GPA for Dean's List eligibility
+        const MIN_DEAN_LIST_GPA = 3.50;
+
+        // 1. Function to check eligibility 
+        function checkDeanList(gpa) {
+            const numericGPA = parseFloat(gpa);
+            if (numericGPA >= MIN_DEAN_LIST_GPA) {
+                return "Dean's List Eligible";
+            } else {
+                return "Not Dean's List Eligible";
+            }
+        }
+
+        // 2. Updated function to handle all user inputs and display result
+        function checkEligibility() {
+            // 1. Get all input values
+            const nameInput = document.getElementById('nameInput').value.trim();
+            const creditHourInput = document.getElementById('creditHourInput').value;
+            const gpaInput = document.getElementById('gpaInput').value;
+            
+            // Convert to numbers for validation/display
+            const currentCreditHours = parseInt(creditHourInput);
+            const currentGPA = parseFloat(gpaInput); 
+            
+            const resultOutput = document.getElementById('resultOutput');
+            
+            // 2. Input Validation (Checking all fields)
+            let validationError = "";
+            
+            if (nameInput === "") {
+                validationError = "Please enter your **Name**.";
+            } else if (isNaN(currentCreditHours) || currentCreditHours <= 0) {
+                validationError = "Please enter a valid number of Credit Hours (must be greater than 0).";
+            } else if (isNaN(currentGPA) || currentGPA < 0 || currentGPA > 4.00) {
+                validationError = "Please enter a valid Pointer (GPA) between 0.00 and 4.00.";
+            }
+
+            if (validationError !== "") {
+                resultOutput.innerHTML = `<p class='not-eligible'> Error: ${validationError}</p>`;
+                return; 
+            }
+
+            // 3. Check the eligibility status
+            const status = checkDeanList(currentGPA);
+            
+            // 4. Determine the CSS class and icon
+            const statusClass = status === "Dean's List Eligible" ? "eligible" : "not-eligible";
+            
+
+            // 5. Generate the HTML output
+            let outputHtml = `
+                <h2> Eligibility Result</h2>
+                <p>
+                    Student Name: <b>${nameInput}</b><br>
+                    Credit Hours Taken: ${currentCreditHours}<br>
+                    Your Pointer (GPA): <b>${currentGPA.toFixed(2)}</b><br>
+                    Dean's List Minimum: <b>${MIN_DEAN_LIST_GPA.toFixed(2)}</b>
+                    <hr style='border-top: 1px dotted #a0a0a0; margin: 10px 0;'>
+                    Status: <span class='${statusClass}'>${status}</span>
+                </p>
+            `;
+
+            // 6. Write the output to the result box
+            resultOutput.innerHTML = outputHtml;
+        }
+        
+    </script>
+
+</body>
+</html>
