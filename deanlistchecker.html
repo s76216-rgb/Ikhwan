@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CGPA Dean's List Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #7f8c8d;
+            background-color: #ecf0f1;
+        }
+        .eligible {
+            color: green;
+            font-weight: bold;
+        }
+        .not-eligible {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Semester Dean's List Eligibility Results</h1>
+
+    <script>
+// -- AI ASSISTED CODE START --
+        // Array initialization, checkDeanList function logic, and the for loop structure were assisted by Gemini.
+        // -- AI ASSISTED CODE END --
+
+        // 1. Define Multi-Dimensional Array studentData)
+        // Format: [Name (String), Credit Hour (Number), Current GPA (Number)]
+const studentData = [
+    ["Dini",15, 4.00],
+    ["Ikhwan",12, 4.00],
+    ["Ammar",18, 4.00],
+    ["Sasuke", 10, 3.89],
+    ["Gamaboko Gonpachiro",20,3.47]
+];
+
+        // 2. Create function to measure dean list eligibility using conditional statement
+function checkDeanList(gpa) {
+            if (gpa >= 3.50) {
+                return "Dean's List Eligible";
+            } else {
+                return "Not Dean's List Eligible";
+            }
+        }
+
+        document.write("<div class='output-box'>");
+        document.write("<h2>Section 03 Result</h2>");
+
+        // 3.Create Looping (for loop) to print student data such name, credithours and current gpa and their eligibility (status)
+for (let i = 0; i < studentData.length; i++) {
+            const student = studentData[i];
+            const name = student[0];
+            // const creditHours = student[1]; // Credit Hours are not strictly required for output
+            const currentGPA = student[2];
+            const status = checkDeanList(currentGPA); // Call the function to get the status
+
+            // Determine the CSS class for styling the status
+            const statusClass = status === "Dean's List Eligible" ? "eligible" : "not-eligible";
+            
+// 4. print all the output, this one need to be in the loop
+document.write("<div class='student-result'>"); // Use a class for better styling/separation
+document.write("Name: <b>" + name + "</b><br>"); // Use the 'name' variable
+document.write("Current GPA: " + currentGPA.toFixed(2) + "<br>"); // Use 'currentGPA'
+document.write("Status: <span class='" + statusClass + "'>" + status + "</span><br>"); // Use 'status' and 'statusClass'
+// Check to ensure the line separator (<hr>) is NOT printed after the last student
+if (i < studentData.length - 1) { 
+    document.write("<hr style='border-top: 1px dotted #ccc;'>");
+}
+document.write("</div>");
+}
+    </script>
+
+    </body>
+</html>
